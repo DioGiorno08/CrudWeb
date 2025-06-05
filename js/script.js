@@ -42,3 +42,35 @@ function MostrarDatos(datos){
     }
 
     ObtenerIntegrantes();
+
+
+    //Proceso para agregar un nuevo integrante
+
+    const modal = document.getElementById("mdAgregar");
+    const btnAgregar = document.getElementById("btnAgregar");
+    const btnCerrar = document.getElementById("btnCerrar");
+
+    btnAgregar.addEventListener("click", ()=>{
+        modal.showModal();
+    });
+
+    btnCerrar.addEventListener("click", ()=>{
+        modal.close();
+    })
+
+
+    //Agregar nuevo integrante desde el formulario
+
+    document.getElementById("frmAgregar").addEventListener("submit", async e => {
+        e.preventDefault(); //"e"representa a "submit". Evita que el formulario se envie de un solo.
+
+        //Captura los valores del formulario 
+        const Nombre = document.getElementById("xtNombre").value.trim();
+        const apellido = document.getElementById("txtApellido").value.trim();
+        const correo = document.getElementById("txtEmail").value.trim();
+
+        if(!Nombre || !Apellido || !Correo){
+            alert("Ingrese lo valores correctamente");
+            return;
+        }
+    })
