@@ -29,7 +29,7 @@ function MostrarDatos(datos){
          <tr>
 
               <td>${integrante.id}</td>
-              <td>${integrante.nombre}</td>
+              <td>${integrante.Nombre}</td>
               <td>${integrante.apellido}</td>
                <td>${integrante.correo}</td>
          <td> 
@@ -58,19 +58,40 @@ function MostrarDatos(datos){
         modal.close();
     })
 
-
     //Agregar nuevo integrante desde el formulario
-
     document.getElementById("frmAgregar").addEventListener("submit", async e => {
         e.preventDefault(); //"e"representa a "submit". Evita que el formulario se envie de un solo.
 
         //Captura los valores del formulario 
-        const Nombre = document.getElementById("xtNombre").value.trim();
+        const Nombre = document.getElementById("txtNombre").value.trim();
         const apellido = document.getElementById("txtApellido").value.trim();
         const correo = document.getElementById("txtEmail").value.trim();
 
-        if(!Nombre || !Apellido || !Correo){
+        if(!Nombre || !apellido || !correo){
             alert("Ingrese lo valores correctamente");
             return;
         }
-    })
+
+        const respuesta = await fetch(API_URL,{
+
+            method: "POST",
+            headers: {'Content-Type': 'application/json'},//Tipo de dato enviado
+            body: JSON.stringify({Nombre,apellido,correo})//Datos enviados
+    });
+
+    //Verificar si la API responde que los daos fueron enviados correctamente
+
+    if(respuesta.ok){
+        alert("El registro fue agregado correctamente");
+
+        document.getElementById("frAgregar").reset();
+
+        modal.close();
+
+        ObtenerIntegrantes();
+    }
+    else{
+        alert("El registro no pudo ser agregado");
+    }
+
+});
