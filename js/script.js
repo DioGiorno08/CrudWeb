@@ -34,7 +34,7 @@ function MostrarDatos(datos){
                <td>${integrante.correo}</td>
          <td> 
             <button>Editar</button>
-            <button>Eliminar</button>
+            <button onclick="EliminarPersona(${integrante.id})">Eliminar</button>
           </td>
          </tr>
         `;
@@ -95,3 +95,23 @@ function MostrarDatos(datos){
     }
 
 });
+
+
+//Funcion para borrar registros
+
+
+
+async function EliminarPersona(id){
+    const confirmacion = confirm("¿Realmente deseas eliminar el registro?");
+
+    if(confirmacion){
+        await fetch(`${API_URL}/${id}`, {
+            method: "DELETE"
+        });
+
+        //Recargar la tabla despues de eliminar
+        ObtenerIntegrantes();
+    }
+
+
+}
