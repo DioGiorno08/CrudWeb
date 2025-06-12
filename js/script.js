@@ -33,7 +33,7 @@ function MostrarDatos(datos){
               <td>${integrante.apellido}</td>
                <td>${integrante.correo}</td>
          <td> 
-            <button onclick= "AbrirModalEditar('${integrante.id}', '${integrante.Nombre}', '${integrante.Apellido}' , '${integrante.correo}')">Editar</button>
+            <button onclick= "AbrirModalEditar('${integrante.id}', '${integrante.Nombre}', '${integrante.apellido}' , '${integrante.correo}')">Editar</button>
             <button onclick="EliminarPersona(${integrante.id})">Eliminar</button>
             
           </td>
@@ -139,3 +139,37 @@ function AbrirModalEditar(id,Nombre, apellido, correo){
     
 
 }
+
+document.getElementById("frmEditar").addEventListener("submit", async e => {
+    e.preventDefault(); //Evita que el formulario se envie 
+
+
+    const id = document.getElementById("txtIdEditar").value;
+    const Nombre = document.getElementById("txtNombreEditar").value.trim();
+    const apellido = document.getElementById("txtApellidoEditar").value.trim();
+    const correo = document.getElementById("txtEmailEditar").value.trim();
+
+
+    if(!id || !Nombre || !apellido || !correo){
+        alert("Complete todos los campos");
+        return;
+    }
+
+    //Llamada a la API
+    const respuesta = await fetch(`${API_URL}/${id}`,{
+        method: "PUT",
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify({correo, Nombre, apellido})
+
+
+    });
+
+    if(respuesta.ok){
+        alert("El registro fue actualizado con exito");
+        modalEditar.close();
+        ObtenerIntegrantes();
+    }
+    else{
+        alert("El registro no pudo ser actualizado")
+    }
+});
